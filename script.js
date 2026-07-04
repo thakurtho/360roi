@@ -2,8 +2,8 @@
 const WEBHOOK_URL = 'https://aigency-proxy.shweta-314.workers.dev';
 
 const PRICES = {
-  r1:     { amount: 1,   label: 'Audit Report' },
-  bundle: { amount: 999, label: 'Audit + Fix Guide' }
+  r1:     { amount: 1,  label: 'Audit Report' },
+  bundle: { amount: 2,  label: 'Audit + Fix Guide' }
 };
 
 /* ── DOM READY ── */
@@ -146,7 +146,7 @@ async function handleSubmit(e) {
   const pdpUrl     = document.getElementById('f-pdp')?.value.trim();
   const collUrl    = document.getElementById('f-collection')?.value.trim();
   const email      = document.getElementById('f-email')?.value.trim();
-  const phone = document.getElementById('f-phone')?.value.trim();
+  const phone = (document.getElementById('f-phone-cc')?.value || '+91') + document.getElementById('f-phone')?.value.trim();
   const cms        = document.getElementById('f-cms')?.value;
   const industry   = document.getElementById('f-industry')?.value;
   const btypeEl    = document.querySelector('.btype-opt.active');
@@ -179,7 +179,7 @@ async function handleSubmit(e) {
 
   try {
     const payload = {
-      url, email,
+      url, email,phone,
       business_type: btype,
       cms_platform: cms,
       industry,
