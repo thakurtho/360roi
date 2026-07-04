@@ -514,6 +514,8 @@ body {
   background: rgba(71,206,183,0.08);
 }
 
+#thankyou-wrap.visible { display: flex; }
+
 /* ── MOBILE RESPONSIVE ── */
 @media (max-width: 768px) {
 
