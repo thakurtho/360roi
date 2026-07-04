@@ -153,7 +153,7 @@ async function handleSubmit(e) {
   const productEl  = document.querySelector('.product-opt.active');
   const btype      = btypeEl?.dataset.value || 'd2c_product';
   const product    = productEl?.dataset.product || 'r1';
-
+const country = document.getElementById('f-phone-cc')?.value.trim() || '+91';
   const btn  = document.getElementById('submit-btn');
   const dot  = document.getElementById('statusDot');
   const txt  = document.getElementById('statusText');
