@@ -260,4 +260,7 @@ function handleHashScroll() {
       document.getElementById('audit-form')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   }
+  if (new URLSearchParams(window.location.search).get('payment') === 'success') {
+    showThankYou('');
+  }
 }
