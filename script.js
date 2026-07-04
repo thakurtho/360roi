@@ -146,20 +146,19 @@ async function handleSubmit(e) {
   const pdpUrl     = document.getElementById('f-pdp')?.value.trim();
   const collUrl    = document.getElementById('f-collection')?.value.trim();
   const email      = document.getElementById('f-email')?.value.trim();
-  const phone = (document.getElementById('f-phone-cc')?.value || '+91') + document.getElementById('f-phone')?.value.trim();
+  const phoneCC    = document.getElementById('f-phone-cc')?.value || '+91';
+  const phoneNum   = document.getElementById('f-phone')?.value.trim();
+  const phone      = phoneCC + phoneNum;
+  const country    = phoneCC;
   const cms        = document.getElementById('f-cms')?.value;
   const industry   = document.getElementById('f-industry')?.value;
   const btypeEl    = document.querySelector('.btype-opt.active');
   const productEl  = document.querySelector('.product-opt.active');
   const btype      = btypeEl?.dataset.value || 'd2c_product';
   const product    = productEl?.dataset.product || 'r1';
-const country = document.getElementById('f-phone-cc')?.value.trim() || '+91';
-  const btn  = document.getElementById('submit-btn');
-  const dot  = document.getElementById('statusDot');
-  const txt  = document.getElementById('statusText');
-  const bar  = document.getElementById('statusBar');
 
-  // Validation
+  const btn = document.getElementById('submit-btn');
+
   if (!url || !email || !cms || !industry) {
     setStatus('error', 'Please fill in all required fields.');
     return;
@@ -179,7 +178,7 @@ const country = document.getElementById('f-phone-cc')?.value.trim() || '+91';
 
   try {
     const payload = {
-      url, email,phone,
+      url, email, phone, country,
       business_type: btype,
       cms_platform: cms,
       industry,
@@ -189,7 +188,6 @@ const country = document.getElementById('f-phone-cc')?.value.trim() || '+91';
       amount: PRICES[product].amount
     };
 
-    // Call Cloudflare Worker to create Cashfree order
     const orderRes = await fetch(WEBHOOK_URL + '/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -198,10 +196,8 @@ const country = document.getElementById('f-phone-cc')?.value.trim() || '+91';
 
     if (!orderRes.ok) throw new Error('Order creation failed');
     const orderData = await orderRes.json();
-
     if (!orderData.payment_session_id) throw new Error('No session ID returned');
 
-    // Open Cashfree payment
     const cashfree = Cashfree({ mode: 'production' });
     const result = await cashfree.checkout({
       paymentSessionId: orderData.payment_session_id,
@@ -210,7 +206,6 @@ const country = document.getElementById('f-phone-cc')?.value.trim() || '+91';
 
     if (result.error) throw new Error(result.error.message || 'Payment failed');
 
-    // Payment success
     showThankYou(email);
 
   } catch (err) {
@@ -237,12 +232,6 @@ function showThankYou(email) {
   tyWrap.classList.add('visible');
   window.scrollTo(0, 0);
 }
-
-const result = await cashfree.checkout({
-  paymentSessionId: orderData.payment_session_id,
-  redirectTarget: '_modal'
-});
-console.log('Cashfree result:', result);
 
 /* ── LEGAL PAGES ── */
 function showLegal(page) {
