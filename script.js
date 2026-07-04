@@ -238,6 +238,12 @@ function showThankYou(email) {
   window.scrollTo(0, 0);
 }
 
+const result = await cashfree.checkout({
+  paymentSessionId: orderData.payment_session_id,
+  redirectTarget: '_modal'
+});
+console.log('Cashfree result:', result);
+
 /* ── LEGAL PAGES ── */
 function showLegal(page) {
   document.getElementById('main-site').style.display = 'none';
