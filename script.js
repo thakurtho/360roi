@@ -201,7 +201,13 @@ async function handleSubmit(e) {
     const cashfree = Cashfree({ mode: 'production' });
     const result = await cashfree.checkout({
       paymentSessionId: orderData.payment_session_id,
-      redirectTarget: '_modal'
+      redirectTarget: '_modal',
+      appearance: {
+        modal: {
+          backdropClose: true,
+          escape: true
+        }
+      }
     });
 
     if (result.error) throw new Error(result.error.message || 'Payment failed');
