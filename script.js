@@ -213,8 +213,10 @@ async function handleSubmit(e) {
     if (result.error) throw new Error(result.error.message || 'Payment failed');
 
     btn.textContent = '✓ Payment successful!';
-    btn.style.background = 'var(--pos)';
-    setStatus('done', `Your audit report will arrive at ${email} within 15 minutes.`);
+    btn.style.background = '#1FA971';
+    btn.style.color = '#fff';
+    btn.style.fontSize = '16px';
+    setStatus('done', `Your audit report will arrive at ${email} within 15 minutes. You can close this tab.`);
 
   } catch (err) {
     console.error(err);
