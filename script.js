@@ -212,7 +212,9 @@ async function handleSubmit(e) {
 
     if (result.error) throw new Error(result.error.message || 'Payment failed');
 
-    showThankYou(email);
+    btn.textContent = '✓ Payment successful!';
+    btn.style.background = 'var(--pos)';
+    setStatus('done', `Your audit report will arrive at ${email} within 15 minutes.`);
 
   } catch (err) {
     console.error(err);
