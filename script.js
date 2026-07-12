@@ -212,11 +212,18 @@ async function handleSubmit(e) {
 
     if (result.error) throw new Error(result.error.message || 'Payment failed');
 
-    btn.textContent = '✓ Payment successful!';
-    btn.style.background = '#1FA971';
-    btn.style.color = '#fff';
-    btn.style.fontSize = '16px';
-    setStatus('done', `Your audit report will arrive at ${email} within 15 minutes. You can close this tab.`);
+    // Hide form, show success box like r2.html
+    const form = document.getElementById('main-form');
+    form.style.display = 'none';
+    const successBox = document.createElement('div');
+    successBox.style.cssText = 'background:var(--navy-2);border:1.5px solid rgba(71,206,183,0.25);border-radius:20px;padding:48px 40px;text-align:center;max-width:560px;';
+    successBox.innerHTML = `
+      <div style="font-size:56px;margin-bottom:24px;">✅</div>
+      <h2 style="font-family:'Nunito Sans',sans-serif;font-size:28px;font-weight:900;color:#47CEB7;margin-bottom:16px;">Payment successful!</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.65);line-height:1.7;">Your audit report will arrive at <strong style="color:#fff;">${email}</strong> within 15 minutes.</p>
+      <p style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:12px;">You can close this tab.</p>
+    `;
+    form.parentNode.appendChild(successBox);
 
   } catch (err) {
     console.error(err);
